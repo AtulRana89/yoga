@@ -7,14 +7,28 @@ mongoose.set("debug", true);
 
 
 router.post("/course", async (req, res) => {
-  await Course.deleteMany({});
-  await Course.insertMany(req.body);
-  return res.send({ statusCode: 200, message: "Success", data: { message: "Course Added Successfully" } });
+  const userId = req.body.userId;
+  const number = req.body.detailList.length;
+
+  let courses = "";
+
+  req.body.detailList.forEach((course) => {
+    const { dayOfWeek, timeOfDay } = course;
+
+    courses += `${dayOfWeek} (${timeOfDay}), `;
+  });
+
+  await Course.deleteMany({ userId });
+
+  // Create a new document
+  await Course.create({ userId, detailList: req.body.detailList });
+
+  return res.send({ uploadResponseCode: "SUCCESS", userId: userId, number: number, courses: courses, message: "successful upload - all done!" });
 });
 
 router.get("/course", async (req, res) => {
-  let result = await Course.find();
-  return res.send({ statusCode: 200, message: "Success", data: { detailList: result } });
+  let result = await Course.find({ userId: req.query.userId });
+  return res.send({ uploadResponseCode: "SUCCESS", detailList: result });
 });
 
 router.post("/class", async (req, res) => {
