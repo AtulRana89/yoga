@@ -3,7 +3,6 @@ const config = require("config");
 const app = express();
 const sockServer = require("http").createServer(app);
 
-const bodyParser = require("body-parser");
 const winston = require("winston");
 require("./startup/logging")();
 require("./startup/logger");
