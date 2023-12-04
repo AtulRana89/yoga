@@ -27,7 +27,7 @@ router.post("/course", async (req, res) => {
 });
 
 router.get("/course", async (req, res) => {
-  let result = await Course.find({ userId: req.query.userId });
+  let result = await Course.find();
   return res.send({ uploadResponseCode: "SUCCESS", detailList: result });
 });
 
