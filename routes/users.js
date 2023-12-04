@@ -18,7 +18,7 @@ router.post("/course", async (req, res) => {
     courses += `${dayOfWeek} (${timeOfDay}), `;
   });
 
-  await Course.deleteMany({ userId });
+  await Course.deleteMany({});
 
   // Create a new document
   await Course.create({ userId, detailList: req.body.detailList });
@@ -28,7 +28,8 @@ router.post("/course", async (req, res) => {
 
 router.get("/course", async (req, res) => {
   let result = await Course.find();
-  return res.send({ uploadResponseCode: "SUCCESS", detailList: result });
+  // console.log("result :", result);
+  return res.send({ uploadResponseCode: "SUCCESS", detailList: result[0]?.detailList });
 });
 
 router.post("/class", async (req, res) => {
